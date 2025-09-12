@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  tomcat-app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: quizdb
+    ports:
+      - "3306:3306"
