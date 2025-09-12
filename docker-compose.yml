@@ -1,14 +1,8 @@
 version: "3.8"
 services:
-  tomcat-app:
-    build: .
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql-db
-
   mysql-db:
     image: mysql:8
+    container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: quizdb
@@ -16,3 +10,15 @@ services:
       - "3306:3306"
     volumes:
       - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+
+  tomcat-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: regapp
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    links:
+      - mysql-db:mysql-db
