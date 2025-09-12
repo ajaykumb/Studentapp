@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS quizdb;
+USE quizdb;
+
+CREATE TABLE IF NOT EXISTS results (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(100) NOT NULL,
+    score INT NOT NULL
+);
