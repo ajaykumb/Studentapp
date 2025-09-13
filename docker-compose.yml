@@ -5,17 +5,20 @@ services:
     container_name: dbapp
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: quizdb            # ✅ auto-create quizdb
     ports:
       - "3306:3306"
     volumes:
-      - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+      - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql   # ✅ init script
 
   tomcat-app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: regapp
-    ports:
-      - "8080:8080"
     depends_on:
       - mysql-db
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./webapp/target/webapp-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/webapp.war  # ✅ deploy WAR
